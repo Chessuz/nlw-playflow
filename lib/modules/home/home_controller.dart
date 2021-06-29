@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeController {
   var currentPage = 0;
@@ -7,7 +8,18 @@ class HomeController {
     currentPage = index;
   }
 
-  void logout(BuildContext context) {
-    Navigator.pushReplacementNamed(context, "/login");
+  Future<void> logout(BuildContext context) async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+      ],
+    );
+
+    try {
+      final response = await _googleSignIn.signOut();
+      Navigator.pushReplacementNamed(context, "/login");
+    } catch (error) {
+      print("GoogleSignOut Erro $error");
+    }
   }
 }

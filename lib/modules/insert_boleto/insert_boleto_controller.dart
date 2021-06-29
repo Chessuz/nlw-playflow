@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/models/boleto_model.dart';
+import 'package:payflow/shared/services/logged_user/logged_user_singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InsertBoletoController {
@@ -36,11 +37,12 @@ class InsertBoletoController {
   }
 
   Future<void> saveBoleto() async {
+    final loggedUser = LoggedUserSingleton();
+    final keyBoletos = "boletos_${loggedUser.id}";
     final instance = await SharedPreferences.getInstance();
-    final boletos = instance.getStringList("boletos") ?? <String>[];
+    final boletos = instance.getStringList(keyBoletos) ?? <String>[];
     boletos.add(model.toJson());
-    await instance.setStringList("boletos", boletos);
-    print("boleto salvo");
+    await instance.setStringList(keyBoletos, boletos);
     return;
   }
 }

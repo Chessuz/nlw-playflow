@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:payflow/models/boleto_model.dart';
+import 'package:payflow/shared/services/logged_user/logged_user_singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BoletoListController {
@@ -16,9 +17,10 @@ class BoletoListController {
 
   Future<void> getBoletos() async {
     try {
-      print("getBoletos - Tile List");
+      final loggedUser = LoggedUserSingleton();
+      final keyBoletos = "boletos_${loggedUser.id}";
       final instance = await SharedPreferences.getInstance();
-      final response = instance.getStringList("boletos") ?? <String>[];
+      final response = instance.getStringList(keyBoletos) ?? <String>[];
       boletos = response.map((e) => BoletoModel.fromJson(e)).toList();
     } catch (e) {
       boletos = <BoletoModel>[];

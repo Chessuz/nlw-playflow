@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payflow/models/user_model.dart';
+import 'package:payflow/shared/services/logged_user/logged_user_singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController {
@@ -12,6 +13,9 @@ class AuthController {
     if (user != null) {
       _user = user;
       saveUser(user);
+
+      final loggedUser = LoggedUserSingleton(id: user.id);
+      loggedUser.id = user.id;
 
       Navigator.pushReplacementNamed(context, "/home", arguments: user);
     } else {

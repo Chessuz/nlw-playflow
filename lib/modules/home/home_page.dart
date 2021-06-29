@@ -4,6 +4,7 @@ import 'package:payflow/models/user_model.dart';
 import 'package:payflow/modules/home/home_controller.dart';
 import 'package:payflow/modules/meus_boletos/meus_boletos_page.dart';
 import 'package:payflow/shared/auth/auth_controller.dart';
+import 'package:payflow/shared/services/logged_user/logged_user_singleton.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
@@ -19,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = HomeController();
   final authController = AuthController();
+  final loggedUser = LoggedUserSingleton();
 
   final pages = [
     MeusBoletosPage(
@@ -30,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   ];
 
   Future<void> _alertDialog() async {
-    print("x001");
     final option = await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -53,14 +54,11 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         });
-    print("x002 ${option}");
     switch (option) {
       case "yes":
-        controller.logout(context);
-        print("yes");
+        await controller.logout(context);
         break;
       case "No":
-        print("no");
         break;
     }
   }
@@ -146,15 +144,11 @@ class _HomePageState extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                // Navigator.pushNamed(context, "/barcode_scanner");
-                print("antes novo");
                 Navigator.pushNamed(context, '/barcode_scanner').then(
                   (_) => {
                     setState(() {}),
-                    print("voltou 02"),
                   },
                 );
-                print("voltou 01");
               },
               child: Container(
                 width: 56,
