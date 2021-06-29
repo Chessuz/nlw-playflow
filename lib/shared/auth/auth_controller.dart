@@ -15,13 +15,19 @@ class AuthController {
 
       Navigator.pushReplacementNamed(context, "/home", arguments: user);
     } else {
+      saveUser(UserModel(name: "", id: "", photoURL: ""));
       Navigator.pushReplacementNamed(context, "/login");
     }
   }
 
   Future<void> saveUser(UserModel user) async {
     final instance = await SharedPreferences.getInstance();
-    await instance.setString("user", user.toJson());
+
+    if (user.id.isEmpty) {
+      instance.remove("user");
+    } else {
+      await instance.setString("user", user.toJson());
+    }
     return;
   }
 

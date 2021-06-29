@@ -120,4 +120,10 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.input,
   );
+
+  static final captionRed = GoogleFonts.inter(
+    fontSize: 15,
+    fontWeight: FontWeight.w700,
+    color: AppColors.delete,
+  );
 }

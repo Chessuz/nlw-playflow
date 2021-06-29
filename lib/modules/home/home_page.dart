@@ -3,6 +3,7 @@ import 'package:payflow/models/extract/extract_page.dart';
 import 'package:payflow/models/user_model.dart';
 import 'package:payflow/modules/home/home_controller.dart';
 import 'package:payflow/modules/meus_boletos/meus_boletos_page.dart';
+import 'package:payflow/shared/auth/auth_controller.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = HomeController();
+  final authController = AuthController();
 
   final pages = [
     MeusBoletosPage(
@@ -26,6 +28,42 @@ class _HomePageState extends State<HomePage> {
       key: UniqueKey(),
     ),
   ];
+
+  Future<void> _alertDialog() async {
+    print("x001");
+    final option = await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('Logout'),
+            title: Text('Fazer logout do App?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, "yes");
+                },
+                child: const Text('Sim'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, "no");
+                },
+                child: const Text('Não'),
+              ),
+            ],
+          );
+        });
+    print("x002 ${option}");
+    switch (option) {
+      case "yes":
+        controller.logout(context);
+        print("yes");
+        break;
+      case "No":
+        print("no");
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +90,36 @@ class _HomePageState extends State<HomePage> {
                 "Matenha suas contas em dia",
                 style: TextStyles.captionBackground,
               ),
-              trailing: Container(
-                height: 48,
-                width: 48,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(5),
-                  image: DecorationImage(
-                      image: NetworkImage(widget.user.photoURL!)),
+              trailing: PopupMenuButton(
+                itemBuilder: (BuildContext context) => [
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: Text(
+                      "Logout",
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'voltar',
+                    child: Text(
+                      "Voltar",
+                    ),
+                  ),
+                ],
+                offset: Offset(0, 48),
+                onSelected: (String result) async {
+                  if (result == 'logout') {
+                    _alertDialog();
+                  }
+                },
+                child: Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                        image: NetworkImage(widget.user.photoURL!)),
+                  ),
                 ),
               ),
             ),
