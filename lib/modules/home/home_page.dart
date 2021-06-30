@@ -160,11 +160,16 @@ class _HomePageState extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/barcode_scanner').then(
+                Navigator.pushNamed(context, '/insert_boleto').then(
                   (_) => {
                     setState(() {}),
                   },
                 );
+                // Navigator.pushNamed(context, '/barcode_scanner').then(
+                //   (_) => {
+                //     setState(() {}),
+                //   },
+                // );
               },
               child: Container(
                 width: 56,
