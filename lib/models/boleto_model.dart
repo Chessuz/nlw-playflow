@@ -33,6 +33,7 @@ class BoletoModel {
       'dueDate': dueDate,
       'value': value,
       'barcode': barcode,
+      'hash': hashCode
     };
   }
 

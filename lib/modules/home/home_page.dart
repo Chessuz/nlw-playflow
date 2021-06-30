@@ -36,20 +36,20 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('Logout'),
-            title: Text('Fazer logout do App?'),
+            content: Text('Fazer logout do App?'),
+            title: Text('Logout'),
             actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, "yes");
-                },
-                child: const Text('Sim'),
-              ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context, "no");
                 },
                 child: const Text('Não'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, "yes");
+                },
+                child: const Text('Sim'),
               ),
             ],
           );
@@ -92,14 +92,30 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (BuildContext context) => [
                   const PopupMenuItem(
                     value: 'logout',
-                    child: Text(
-                      "Logout",
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.logout_outlined,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        "Logout",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                   const PopupMenuItem(
                     value: 'voltar',
-                    child: Text(
-                      "Voltar",
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.arrow_back_outlined,
+                      ),
+                      title: Text(
+                        "Voltar",
+                      ),
                     ),
                   ),
                 ],

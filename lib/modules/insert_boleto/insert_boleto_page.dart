@@ -27,9 +27,11 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
 
   @override
   void initState() {
-    if (widget.barcode != null) {
+    if (widget.barcode != null && widget.barcode != 'null')
       barcodeInputTextController.text = widget.barcode!;
-    }
+
+    //widget.barcode ?? '';
+
     super.initState();
   }
 
@@ -67,12 +69,14 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                   children: [
                     InputTextWidget(
                       label: 'Nome do boleto',
+                      inputType: TextInputType.text,
                       icon: Icons.description_outlined,
                       validator: controller.validateName,
                       onChanged: (value) => {controller.onChange(name: value)},
                     ),
                     InputTextWidget(
                       label: 'Vencimento',
+                      inputType: TextInputType.datetime,
                       icon: FontAwesomeIcons.timesCircle,
                       controller: dueDateInputTextController,
                       validator: controller.validateVencimento,
@@ -81,6 +85,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                     ),
                     InputTextWidget(
                       label: 'Valor',
+                      inputType: TextInputType.number,
                       icon: FontAwesomeIcons.wallet,
                       controller: moneyInputTextController,
                       validator: (_) => controller
@@ -92,6 +97,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                     ),
                     InputTextWidget(
                       label: 'Código',
+                      inputType: TextInputType.text,
                       icon: FontAwesomeIcons.barcode,
                       controller: barcodeInputTextController,
                       validator: controller.validateCodigo,
